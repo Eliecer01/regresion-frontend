@@ -29,9 +29,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "server": "src/main.server.ts",
-            "outputMode": "static",
-            "ssr": false
+            "outputPath": "dist/regresion-frontend/browser",
+            "outputMode": "static" 
+            
           },
           "configurations": {
             "production": {

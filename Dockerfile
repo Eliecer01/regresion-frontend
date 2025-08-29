@@ -12,6 +12,8 @@ RUN npm run build
 
 # Etapa de producción
 FROM nginx:alpine
+
+# Copiar los archivos construidos
 COPY --from=build-stage /app/dist/regresion-frontend/browser /usr/share/nginx/html
 
 # Copiar configuración de nginx

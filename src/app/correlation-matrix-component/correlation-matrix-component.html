@@ -1,0 +1,54 @@
+<div class="correlation-container" *ngIf="regressionData && regressionData.rsquared !== null && regressionData.rsquared !== undefined && multipleCorrelation !== null">
+  <h3>Coeficiente de Correlación Múltiple</h3>
+  
+  <div class="correlation-card">
+    <div class="formula">
+      R = √(R²) = √({{ regressionData.rsquared | number:'1.2-2' }}) = 
+      <span class="r-value">{{ multipleCorrelation | number:'1.2-2' }}</span>
+    </div>
+    
+    <div class="visualization">
+      <div class="correlation-scale">
+        <div class="scale-labels">
+          <span>0.0</span>
+          <span>0.3</span>
+          <span>0.5</span>
+          <span>0.7</span>
+          <span>0.9</span>
+          <span>1.0</span>
+        </div>
+        <div class="scale-bar">
+          <div class="scale-fill" [style.width.%]="multipleCorrelation * 100"></div>
+          <div class="indicator" [style.left.%]="multipleCorrelation * 100"></div>
+        </div>
+        <div class="strength-labels">
+          <span>Muy Débil</span>
+          <span>Débil</span>
+          <span>Moderada</span>
+          <span>Fuerte</span>
+          <span>Muy Fuerte</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="interpretation">
+      <h4>Interpretación:</h4>
+      <p>
+        El coeficiente de correlación múltiple <strong>R = {{ multipleCorrelation | number:'1.2-2' }}</strong> 
+        indica una correlación <strong [style.color]="getCorrelationColor(multipleCorrelation)">{{ correlationStrength }}</strong> 
+        entre la variable dependiente Y y el conjunto de variables independientes (X₁, X₂).
+      </p>
+      
+      <div class="strength-guide">
+        <p><strong>Guía de interpretación:</strong></p>
+        <ul>
+          <li><span class="color-dot" style="background-color: #f44336;"></span> 0.0 - 0.3: Correlación MUY DÉBIL</li>
+          <li><span class="color-dot" style="background-color: #ffeb3b;"></span> 0.3 - 0.5: Correlación DÉBIL</li>
+          <li><span class="color-dot" style="background-color: #ff9800;"></span> 0.5 - 0.7: Correlación MODERADA</li>
+          <li><span class="color-dot" style="background-color: #4caf50;"></span> 0.7 - 0.9: Correlación FUERTE</li>
+          <li><span class="color-dot" style="background-color: #2e7d32;"></span> 0.9 - 1.0: Correlación MUY FUERTE</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

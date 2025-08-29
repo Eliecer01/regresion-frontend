@@ -1,0 +1,79 @@
+<div class="results-container" *ngIf="regressionData && regressionData.coefficients">
+    <h3>Resultados de la Regresión</h3>
+    
+    <div class="table-container">
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Y</th>
+                    <th>X₁</th>
+                    <th>X₂</th>
+                    <th>ŷ (Predicción)</th>
+                    <th>e = Y - ŷ</th>
+                    <th>SCE = e²</th>
+                    <th>SCR = (ŷ - ȳ)²</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let point of dataPoints">
+                    <td>{{ point.y !== null ? (point.y | number:'1.0-2') : '-' }}</td>
+                    <td>{{ point.x1 !== null ? (point.x1 | number:'1.0-2') : '-' }}</td>
+                    <td>{{ point.x2 !== null ? (point.x2 | number:'1.0-2') : '-' }}</td>
+                    <td>{{ calculatePrediction(point) | number:'1.0-2' }}</td>
+                    <td>{{ calculateError(point) | number:'1.0-2' }}</td>
+                    <td>{{ calculateSquaredError(point) | number:'1.0-2' }}</td>
+                    <td>{{ calculateRegressionSum(point) | number:'1.0-2' }}</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="summary-row">
+                    <td>{{ calculateYMean() | number:'1.0-2' }}</td>
+                    <td colspan="2">Media de Y (ȳ)</td>
+                    <td colspan="2">Suma SCE</td>
+                    <td>{{ calculateTotalSCE() | number:'1.0-2' }}</td>
+                    <td>{{ calculateTotalSCR() | number:'1.0-2' }}</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="6">STC = SCR + SCE</td>
+                    <td>{{ calculateTotalSST() | number:'1.0-2' }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="standard-error" *ngIf="calculateTotalSCE() > 0">
+        <h4>Error Estándar de la Estimación Múltiple:</h4>
+        <p class="error-formula">
+            S = √[SCE / (n - k - 1)] = 
+            √[{{ calculateTotalSCE() | number:'1.0-2' }} / ({{ validDataCount }} - 2 - 1)] = 
+            {{ calculateStandardError() | number:'1.0-2' }}
+        </p>
+    </div>
+
+    <div class="r-squared" *ngIf="calculateTotalSCR() > 0">
+        <h4>Coeficiente de Determinación Múltiple (R²):</h4>
+        <p class="r-formula">
+            R² = SCR / STC = 
+            {{ calculateTotalSCR() | number:'1.0-2' }} / {{ calculateTotalSST() | number:'1.0-2' }} = 
+            {{ calculateRSquared() | number:'1.0-2' }}
+        </p>
+        <p class="r-interpretation">
+            El {{ (calculateRSquared() * 100) | number:'1.0-2' }}% de la variabilidad en Y 
+            es explicado por el modelo de regresión con las variables X₁ y X₂.
+        </p>
+    </div>
+
+    <div class="adjusted-r-squared" *ngIf="calculateTotalSCR() > 0">
+        <h4>Coeficiente Ajustado de Determinación Múltiple (R² Ajustado):</h4>
+        <p class="adjusted-r-formula">
+            R² Ajustado = 1 - (1 - R²) × [(n - 1) / (n - k - 1)] = 
+            1 - (1 - {{ calculateRSquared() | number:'1.0-2' }}) × [({{ validDataCount }} - 1) / ({{ validDataCount }} - 2 - 1)] = 
+            {{ calculateAdjustedRSquared() | number:'1.0-2' }}
+        </p>
+        <p class="adjusted-r-interpretation">
+            El R² ajustado penaliza la adición de variables innecesarias al modelo. 
+            Un valor de {{ (calculateAdjustedRSquared() * 100) | number:'1.2-2' }}% indica 
+            la proporción de variabilidad explicada ajustada por el número de variables predictoras.
+        </p>
+    </div>
+</div>

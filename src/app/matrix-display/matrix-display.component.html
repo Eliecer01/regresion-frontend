@@ -1,0 +1,44 @@
+<div class="matrix-container" *ngIf="matrixData">
+  <h3>{{ title }}</h3>
+
+  <div class="matrix-system">
+    <!-- Sistema de ecuaciones -->
+    <div class="equations">
+      <div class="equation" *ngFor="let coef of coefficients; let i = index">
+        <span class="coefficient">{{ coef }}</span>
+        <span class="equals">=</span>
+      </div>
+    </div>
+
+    <!-- Matriz A -->
+    <div class="matrix-a">
+      <div class="matrix-bracket left">[</div>
+
+      <div class="matrix-content">
+        <div class="matrix-row" *ngFor="let row of matrixA">
+          <div class="matrix-cell" *ngFor="let cell of row">
+            {{ cell | number:'1.0-0' }}
+          </div>
+        </div>
+      </div>
+
+      <div class="matrix-bracket right">]</div>
+    </div>
+
+    <!-- Multiplicación -->
+    <div class="multiplication">×</div>
+
+    <!-- Vector B -->
+    <div class="vector-b">
+      <div class="vector-bracket left">[</div>
+
+      <div class="vector-content">
+        <div class="vector-cell" *ngFor="let value of vectorB">
+          {{ value | number:'1.2-2' }}
+        </div>
+      </div>
+
+      <div class="vector-bracket right">]</div>
+    </div>
+  </div>
+</div>

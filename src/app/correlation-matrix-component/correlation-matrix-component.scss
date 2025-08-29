@@ -1,0 +1,155 @@
+.correlation-container {
+  margin: 20px 0;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+
+  h3 {
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+    margin-top: 0;
+    text-align: center;
+  }
+}
+
+.correlation-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.formula {
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  
+  .r-value {
+    font-weight: bold;
+    font-size: 24px;
+    color: #2196f3;
+  }
+}
+
+.visualization {
+  margin: 20px 0;
+}
+
+.correlation-scale {
+  margin: 0 auto;
+  max-width: 600px;
+  
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .scale-bar {
+    height: 20px;
+    background: linear-gradient(90deg, #f44336, #ffeb3b, #ff9800, #4caf50, #2e7d32);
+    border-radius: 10px;
+    position: relative;
+    overflow: visible;
+    
+    .scale-fill {
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+    }
+    
+    .indicator {
+      position: absolute;
+      top: -5px;
+      width: 4px;
+      height: 30px;
+      background-color: #000;
+      transform: translateX(-50%);
+      z-index: 10;
+    }
+  }
+  
+  .strength-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    font-size: 11px;
+    color: #666;
+    
+    span {
+      flex: 1;
+      text-align: center;
+    }
+  }
+}
+
+.interpretation {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e8f4f8;
+  border-radius: 5px;
+  
+  h4 {
+    margin-top: 0;
+    color: #2c3e50;
+  }
+  
+  p {
+    margin-bottom: 15px;
+    line-height: 1.5;
+  }
+}
+
+.strength-guide {
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  border-left: 4px solid #3498db;
+  
+  p {
+    margin-top: 0;
+    font-weight: bold;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    
+    li {
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.color-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+  .formula {
+    font-size: 16px;
+    
+    .r-value {
+      font-size: 20px;
+    }
+  }
+  
+  .strength-labels {
+    font-size: 10px;
+  }
+}

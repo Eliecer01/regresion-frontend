@@ -1,0 +1,147 @@
+.results-container {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+
+  h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+  }
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+
+  th, td {
+    padding: 8px 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #3498db;
+    color: white;
+    font-weight: bold;
+  }
+
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+  .summary-row {
+    font-weight: bold;
+    background-color: #e7f4fe;
+
+    td:first-child {
+      background-color: #d1edff;
+    }
+  }
+
+  .total-row {
+    font-weight: bold;
+    background-color: #fff2cc;
+    
+    td {
+      background-color: #ffe699;
+    }
+  }
+}
+
+.standard-error {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e8f5e9;
+  border-radius: 5px;
+  border-left: 4px solid #4caf50;
+
+  h4 {
+    margin-top: 0;
+    color: #2e7d32;
+  }
+
+  .error-formula {
+    font-family: monospace;
+    font-size: 16px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #c8e6c9;
+  }
+}
+
+.r-squared {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #e3f2fd;
+  border-radius: 5px;
+  border-left: 4px solid #2196f3;
+
+  h4 {
+    margin-top: 0;
+    color: #1565c0;
+  }
+
+  .r-formula {
+    font-family: monospace;
+    font-size: 16px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #bbdefb;
+  }
+
+  .r-interpretation {
+    margin-top: 10px;
+    font-style: italic;
+    color: #1976d2;
+  }
+}
+
+.adjusted-r-squared {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f3e5f5;
+  border-radius: 5px;
+  border-left: 4px solid #9c27b0;
+
+  h4 {
+    margin-top: 0;
+    color: #7b1fa2;
+  }
+
+  .adjusted-r-formula {
+    font-family: monospace;
+    font-size: 16px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #e1bee7;
+  }
+
+  .adjusted-r-interpretation {
+    margin-top: 10px;
+    font-style: italic;
+    color: #7b1fa2;
+  }
+}
+
+@media (max-width: 768px) {
+  .results-table {
+    font-size: 12px;
+    
+    th, td {
+      padding: 4px 6px;
+    }
+  }
+
+  .error-formula, .r-formula, .adjusted-r-formula {
+    font-size: 14px;
+    overflow-x: auto;
+  }
+}

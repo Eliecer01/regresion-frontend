@@ -1,0 +1,111 @@
+<div class="home-container">
+    <header class="header">
+        <h1>Análisis de Regresión Múltiple</h1>
+        <p>Sistema para cálculo de regresión lineal múltiple</p>
+    </header>
+
+    <main class="main-content">
+        <!-- Controles principales -->
+        <div class="controls">
+            <button class="btn btn-primary" (click)="addEmptyRow()">
+                + Agregar Fila
+            </button>
+            <button class="btn btn-secondary" (click)="clearAll()">
+                🗑️ Limpiar Todo
+            </button>
+            <button class="btn btn-success" (click)="calculateRegression()"
+                [disabled]="summary.count < 3 || isCalculating">
+                {{ isCalculating ? 'Calculando...' : '📊 Calcular Regresión' }}
+            </button>
+        </div>
+
+        <!-- Tabla de datos -->
+        <div class="table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Y (Dependiente)</th>
+                        <th>X₁ (Independiente 1)</th>
+                        <th>X₂ (Independiente 2)</th>
+                        <th>X₁²</th>
+                        <th>X₂²</th>
+                        <th>X₁ * X₂</th>
+                        <th>X₁ * Y</th>
+                        <th>X₂ * Y</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let point of displayedData; let i = index; trackBy: trackByFn">
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <input type="number" [(ngModel)]="dataPoints[i].y" (input)="onDataChange()" placeholder="Y"
+                                class="data-input">
+                        </td>
+                        <td>
+                            <input type="number" [(ngModel)]="dataPoints[i].x1" (input)="onDataChange()"
+                                placeholder="X₁" class="data-input">
+                        </td>
+                        <td>
+                            <input type="number" [(ngModel)]="dataPoints[i].x2" (input)="onDataChange()"
+                                placeholder="X₂" class="data-input">
+                        </td>
+                        <td class="calculated">{{ point.x1Squared || '-' }}</td>
+                        <td class="calculated">{{ point.x2Squared || '-' }}</td>
+                        <td class="calculated">{{ point.x1x2 || '-' }}</td>
+                        <td class="calculated">{{ point.x1y || '-' }}</td>
+                        <td class="calculated">{{ point.x2y || '-' }}</td>
+                        <td>
+                            <button class="btn btn-danger btn-sm" (click)="removeRow(i)">
+                                🗑️
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <!-- Filas de sumatorias -->
+                <tfoot>
+                    <tr class="summary-row">
+                        <td>Σ</td>
+                        <td>{{ summary.sumY || 0 }}</td>
+                        <td>{{ summary.sumX1 || 0 }}</td>
+                        <td>{{ summary.sumX2 || 0 }}</td>
+                        <td>{{ summary.sumX1Squared || 0 }}</td>
+                        <td>{{ summary.sumX2Squared || 0 }}</td>
+                        <td>{{ summary.sumX1x2 || 0 }}</td>
+                        <td>{{ summary.sumX1y || 0 }}</td>
+                        <td>{{ summary.sumX2y || 0 }}</td>
+                        <td></td>
+                    </tr>
+                    <tr class="count-row">
+                        <td>n</td>
+                        <td colspan="8">{{ summary.count || 0 }} filas válidas</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <!-- Información de validación -->
+        <div class="validation-info" *ngIf="summary.count < 3">
+            <div class="alert alert-warning">
+                ⚠️ Se necesitan al menos <strong>3 filas completas</strong> para calcular la regresión
+            </div>
+        </div>
+    </main>
+
+    <app-matrix-display *ngIf="showMatrixComponents" [matrixData]="matrixData" title="Sistema de Ecuaciones Normales">
+    </app-matrix-display>
+
+    <app-gauss-jordan-matrix *ngIf="showMatrixComponents" [matrixData]="matrixData"
+        title="Cálculo de Matriz Inversa - Método de Gauss-Jordan">
+    </app-gauss-jordan-matrix>
+
+    <app-regression-results *ngIf="showResults && regressionResult" [dataPoints]="dataPoints"
+        [regressionData]="regressionResult">
+    </app-regression-results>
+
+    <app-correlation-matrix *ngIf="showResults && regressionResult" [regressionData]="regressionResult">
+    </app-correlation-matrix>
+
+</div>

@@ -1,0 +1,90 @@
+<div class="gauss-jordan-container" *ngIf="matrixData">
+  <h3>{{ title }}</h3>
+  
+  <!-- Matriz Aumentada -->
+  <div class="augmented-matrix">
+    <div class="matrix-section">
+      <h4>Matriz Aumentada [A | I]:</h4>
+      <div class="matrix">
+        <div class="matrix-bracket left">[</div>
+        
+        <div class="matrix-content">
+          <div class="matrix-row" *ngFor="let row of augmentedMatrix">
+            <div class="matrix-cell" 
+                 *ngFor="let cell of row; let i = index"
+                 [class.identity]="i >= 3">
+              {{ formatNumber(cell) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="matrix-bracket right">]</div>
+      </div>
+    </div>
+
+    <!-- Separador -->
+    <div class="separator">→</div>
+
+    <!-- Matriz Identidad Resultante -->
+    <div class="matrix-section">
+      <h4>Matriz Inversa A⁻¹:</h4>
+      <div class="matrix" *ngIf="inverseMatrix; else noInverse">
+        <div class="matrix-bracket left">[</div>
+        
+        <div class="matrix-content">
+          <div class="matrix-row" *ngFor="let row of inverseMatrix.matrix">
+            <div class="matrix-cell inverse-cell" *ngFor="let cell of row">
+              {{ formatNumberInverseMatrix(cell) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="matrix-bracket right">]</div>
+      </div>
+
+      <ng-template #noInverse>
+        <div class="no-data">
+          {{ isLoading ? 'Calculando...' : 'Calcular matriz inversa' }}
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <!-- Botón de cálculo -->
+  <div class="controls">
+    <button class="calculate-btn" 
+            (click)="calculateInverse()"
+            [disabled]="isLoading">
+      {{ isLoading ? 'Calculando...' : '🔢 Calcular Matriz Inversa' }}
+    </button>
+  </div>
+
+  <!-- Resultados -->
+  <div class="results" *ngIf="inverseMatrix && inverseMatrix.matrix && inverseMatrix.coefficients">
+    <h4>Coeficientes de Regresión:</h4>
+    <div class="coefficients">
+      <div class="coefficient" *ngIf="inverseMatrix && inverseMatrix.coefficients">
+        <span>a (Intercepto) = {{ formatNumber(inverseMatrix.coefficients[0]) }}</span>
+        <span>b₁ (X₁) = {{ formatNumber(inverseMatrix.coefficients[1]) }}</span>
+        <span>b₂ (X₂) = {{ formatNumber(inverseMatrix.coefficients[2]) }}</span>
+      </div>
+    </div>
+
+    <div class="equation" *ngIf="inverseMatrix.equation">
+      <strong>Ecuación:</strong> {{ inverseMatrix.equation }}
+    </div>
+  </div>
+
+  <!-- Error -->
+  <div class="error" *ngIf="error">
+    <div class="error-message">
+      ⚠️ {{ error }}
+    </div>
+  </div>
+
+  <!-- Explicación -->
+  <div class="explanation">
+    <h4>Proceso de Gauss-Jordan:</h4>
+    <p>La matriz aumentada [A | I] se transforma mediante operaciones elementales de fila hasta obtener [I | A⁻¹]</p>
+  </div>
+</div>

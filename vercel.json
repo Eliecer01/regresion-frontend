@@ -2,8 +2,11 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/regresion-frontend/browser/**/*",
-      "use": "@vercel/static"
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist/regresion-frontend/browser"
+      }
     }
   ],
   "routes": [

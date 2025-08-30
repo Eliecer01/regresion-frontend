@@ -10,6 +10,7 @@ import { RegressionResult } from '../models/RegressionResult';
   providedIn: 'root',
 })
 export class RegressionService {
+  //private apiUrl = 'http://localhost:8080/api/regression';
   private apiUrl = 'https://regresi-n-lineal-multiple.onrender.com/api/regression';
 
   constructor(private http: HttpClient) {}

@@ -1,18 +1,16 @@
 <div class="gauss-jordan-container" *ngIf="matrixData">
   <h3>{{ title }}</h3>
-  
+
   <!-- Matriz Aumentada -->
   <div class="augmented-matrix">
     <div class="matrix-section">
       <h4>Matriz Aumentada [A | I]:</h4>
       <div class="matrix">
         <div class="matrix-bracket left">[</div>
-        
+
         <div class="matrix-content">
           <div class="matrix-row" *ngFor="let row of augmentedMatrix">
-            <div class="matrix-cell" 
-                 *ngFor="let cell of row; let i = index"
-                 [class.identity]="i >= 3">
+            <div class="matrix-cell" *ngFor="let cell of row; let i = index" [class.identity]="i >= 3">
               {{ formatNumber(cell) }}
             </div>
           </div>
@@ -30,7 +28,7 @@
       <h4>Matriz Inversa A⁻¹:</h4>
       <div class="matrix" *ngIf="inverseMatrix; else noInverse">
         <div class="matrix-bracket left">[</div>
-        
+
         <div class="matrix-content">
           <div class="matrix-row" *ngFor="let row of inverseMatrix.matrix">
             <div class="matrix-cell inverse-cell" *ngFor="let cell of row">
@@ -48,32 +46,119 @@
         </div>
       </ng-template>
     </div>
+
+    <!-- Matriz de Multiplicación A⁻¹ × B -->
+    <div class="matrix-section" *ngIf="multiplicationMatrix">
+      <h4>Matriz A⁻¹ × Vector B:</h4>
+      <div class="matrix">
+        <div class="matrix-bracket left">[</div>
+
+        <div class="matrix-content">
+          <div class="matrix-row" *ngFor="let row of multiplicationMatrix">
+            <div class="matrix-cell multiplication-cell" *ngFor="let cell of row">
+              {{ formatMultiplicationNumber(cell) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="matrix-bracket right">]</div>
+      </div>
+    </div>
   </div>
 
   <!-- Botón de cálculo -->
   <div class="controls">
-    <button class="calculate-btn" 
-            (click)="calculateInverse()"
-            [disabled]="isLoading">
+    <button class="calculate-btn" (click)="calculateInverse()" [disabled]="isLoading">
       {{ isLoading ? 'Calculando...' : '🔢 Calcular Matriz Inversa' }}
     </button>
   </div>
 
-  <!-- Resultados -->
-  <div class="results" *ngIf="inverseMatrix && inverseMatrix.matrix && inverseMatrix.coefficients">
-    <h4>Coeficientes de Regresión:</h4>
+
+  <div class="explanation" *ngIf="multiplicationMatrix">
+    <p><strong>Donde Vector B = [ΣY, ΣX₁Y, ΣX₂Y] =
+        [{{ formatNumber(matrixData.sumY) }},
+        {{ formatNumber(matrixData.sumX1y) }},
+        {{ formatNumber(matrixData.sumX2y) }}]</strong></p>
+    <p>Los coeficientes finales son la suma de cada fila:</p>
+    <ul>
+      <li>a = {{ formatMultiplicationNumber(multiplicationMatrix[0][0]) }} +
+        {{ formatMultiplicationNumber(multiplicationMatrix[0][1]) }} +
+        {{ formatMultiplicationNumber(multiplicationMatrix[0][2]) }} =
+        {{ formatNumberInverseMatrix(calculatedCoefficients[0]) }}</li>
+      <li>b₁ = {{ formatMultiplicationNumber(multiplicationMatrix[1][0]) }} +
+        {{ formatMultiplicationNumber(multiplicationMatrix[1][1]) }} +
+        {{ formatMultiplicationNumber(multiplicationMatrix[1][2]) }} =
+        {{ formatNumberInverseMatrix(calculatedCoefficients[1]) }}</li>
+      <li>b₂ = {{ formatMultiplicationNumber(multiplicationMatrix[2][0]) }} +
+        {{ formatMultiplicationNumber(multiplicationMatrix[2][1]) }} +
+        {{ formatMultiplicationNumber(multiplicationMatrix[2][2]) }} =
+        {{ formatNumberInverseMatrix(calculatedCoefficients[2]) }}</li>
+    </ul>
+  </div>
+
+
+  <!-- Resultados con coeficientes calculados por suma de filas -->
+  <div class="results" *ngIf="calculatedCoefficients.length === 3">
+    <h4>Coeficientes de Regresión (Suma de Filas):</h4>
     <div class="coefficients">
-      <div class="coefficient" *ngIf="inverseMatrix && inverseMatrix.coefficients">
-        <span>a (Intercepto) = {{ formatNumber(inverseMatrix.coefficients[0]) }}</span>
-        <span>b₁ (X₁) = {{ formatNumber(inverseMatrix.coefficients[1]) }}</span>
-        <span>b₂ (X₂) = {{ formatNumber(inverseMatrix.coefficients[2]) }}</span>
+      <div class="coefficient">
+        <span>a (Intercepto) = {{ formatNumberInverseMatrix(calculatedCoefficients[0]) }}</span>
+        <span>b₁ (X₁) = {{ formatNumberInverseMatrix(calculatedCoefficients[1]) }}</span>
+        <span>b₂ (X₂) = {{ formatNumberInverseMatrix(calculatedCoefficients[2]) }}</span>
       </div>
     </div>
 
-    <div class="equation" *ngIf="inverseMatrix.equation">
-      <strong>Ecuación:</strong> {{ inverseMatrix.equation }}
+    <div class="equation" *ngIf="inverseMatrix?.equation">
+      <strong>Ecuación:</strong> {{ inverseMatrix?.equation }}
     </div>
   </div>
+
+  <!-- Formulario de Estimación -->
+<div class="estimation-section" *ngIf="calculatedCoefficients.length === 3">
+  <button class="toggle-estimation-btn" (click)="toggleEstimationForm()">
+    {{ showEstimationForm ? '❌ Ocultar' : '🔮 Mostrar' }} Calculadora de Estimaciones
+  </button>
+
+  <div class="estimation-form" *ngIf="showEstimationForm">
+    <h4>Calculadora de Estimaciones</h4>
+    
+    <div class="estimation-equation">
+      <strong>Ecuación: </strong>
+      ŷ = {{ formatNumberInverseMatrix(calculatedCoefficients[0]) }} + 
+          {{ formatNumberInverseMatrix(calculatedCoefficients[1]) }}*X₁ + 
+          {{ formatNumberInverseMatrix(calculatedCoefficients[2]) }}*X₂
+    </div>
+
+    <div class="input-group">
+      <label for="estimationX1">Valor de X₁:</label>
+      <input type="number" id="estimationX1" [(ngModel)]="estimationX1" 
+             (input)="calculateEstimation()" step="0.01" placeholder="Ingrese X₁">
+    </div>
+
+    <div class="input-group">
+      <label for="estimationX2">Valor de X₂:</label>
+      <input type="number" id="estimationX2" [(ngModel)]="estimationX2" 
+             (input)="calculateEstimation()" step="0.01" placeholder="Ingrese X₂">
+    </div>
+
+    <div class="estimation-result" *ngIf="estimationResult !== null">
+      <h5>Resultado de la Estimación:</h5>
+      <div class="result-calculation">
+        ŷ = {{ formatNumberInverseMatrix(calculatedCoefficients[0]) }} + 
+            {{ formatNumberInverseMatrix(calculatedCoefficients[1]) }}*{{ estimationX1 }} + 
+            {{ formatNumberInverseMatrix(calculatedCoefficients[2]) }}*{{ estimationX2 }}<br>
+        ŷ = {{ formatNumberInverseMatrix(calculatedCoefficients[0]) }} + 
+            {{ formatNumberInverseMatrix(calculatedCoefficients[1] * (estimationX1 || 0)) }} + 
+            {{ formatNumberInverseMatrix(calculatedCoefficients[2] * (estimationX2 || 0)) }}<br>
+        ŷ = <strong>{{ formatEstimationResult(estimationResult) }}</strong>
+      </div>
+    </div>
+
+    <div class="no-estimation" *ngIf="estimationResult === null && (estimationX1 !== null || estimationX2 !== null)">
+      <p>⚠️ Ingrese ambos valores (X₁ y X₂) para calcular la estimación</p>
+    </div>
+  </div>
+</div>
 
   <!-- Error -->
   <div class="error" *ngIf="error">

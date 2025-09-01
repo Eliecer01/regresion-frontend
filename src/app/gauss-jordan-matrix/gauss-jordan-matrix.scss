@@ -4,7 +4,7 @@
   background: #fff;
   border-radius: 12px;
   border: 2px solid #e9ecef;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   h3 {
     color: #2c3e50;
@@ -216,6 +216,150 @@
   color: #6c757d;
   text-align: center;
   font-style: italic;
+}
+
+.multiplication-cell {
+  justify-content: center;
+  background-color: #e8f5e8;
+  border: 1px solid #4caf50;
+  font-weight: bold;
+}
+
+.explanation {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-left: 4px solid #007bff;
+
+  ul {
+    margin: 10px 0;
+    padding-left: 20px;
+
+    li {
+      margin: 5px 0;
+      font-family: monospace;
+    }
+  }
+}
+
+.estimation-section {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+
+  .toggle-estimation-btn {
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+
+    &:hover {
+      background: #5a6268;
+    }
+  }
+}
+
+.estimation-form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+
+  h4 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}
+
+.estimation-equation {
+  padding: 1rem;
+  background: #e8f5e8;
+  border-radius: 6px;
+  border: 1px solid #c8e6c9;
+  margin-bottom: 1.5rem;
+  font-family: 'Courier New', monospace;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #2c3e50;
+  }
+
+  input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    }
+  }
+}
+
+.estimation-result {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: #e3f2fd;
+  border-radius: 6px;
+  border: 1px solid #bbdefb;
+
+  h5 {
+    color: #1976d2;
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+}
+
+.result-calculation {
+  font-family: 'Courier New', monospace;
+  line-height: 1.6;
+  background: white;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #bbdefb;
+
+  strong {
+    color: #e74c3c;
+    font-size: 1.2rem;
+  }
+}
+
+.no-estimation {
+  padding: 1rem;
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 6px;
+  color: #856404;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .estimation-form {
+    padding: 1rem;
+  }
+
+  .result-calculation {
+    font-size: 0.9rem;
+  }
 }
 
 /* Responsive */
